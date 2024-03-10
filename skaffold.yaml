@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta9
+kind: Config
+build:
+  artifacts:
+    - image: auth-service
+      context: .
+      sync:
+        manual:
+          - src: apps/auth-service/src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile.dev
+        buildArgs:
+          service: "auth-service"
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+deploy:
+  kubectl: {}

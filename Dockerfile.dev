@@ -1,0 +1,10 @@
+FROM node:alpine
+
+ARG service
+ENV service=${service}
+WORKDIR /app
+COPY . .
+
+RUN npm ci
+
+CMD npm run start:dev -- "$service"
