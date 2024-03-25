@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
-import { AppModule } from './app.module';
+import { AccountModule } from './account.module';
+import { Transport, type MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AccountModule);
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.NATS,
     options: {
@@ -11,8 +11,7 @@ async function bootstrap() {
       waitOnFirstConnect: true,
     },
   });
-
   await app.startAllMicroservices();
-  await app.listen(3001);
+  await app.listen(3000);
 }
 bootstrap();

@@ -17,3 +17,10 @@ spec:
                 name: auth-srv
                 port:
                   number: 3001
+          - path: /api/account/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: account-srv
+                port:
+                  number: 3001

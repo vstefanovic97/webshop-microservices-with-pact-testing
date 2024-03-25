@@ -1,7 +1,8 @@
 FROM node:alpine
 
 ARG service
-ENV service=${service}
+ENV service=$service
+
 WORKDIR /app
 COPY . .
 

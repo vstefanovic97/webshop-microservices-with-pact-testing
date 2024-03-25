@@ -28,13 +28,13 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
-    "account": {
+    "account-service": {
       "type": "application",
-      "root": "apps/account",
+      "root": "apps/account-service",
       "entryFile": "main",
-      "sourceRoot": "apps/account/src",
+      "sourceRoot": "apps/account-service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/account/tsconfig.app.json"
+        "tsConfigPath": "apps/account-service/tsconfig.app.json"
       }
     }
   }

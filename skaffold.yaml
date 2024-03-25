@@ -12,10 +12,23 @@ build:
         dockerfile: Dockerfile.dev
         buildArgs:
           service: "auth-service"
+    - image: account-service
+      context: .
+      sync:
+        manual:
+          - src: apps/account-service/src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile.dev
+        buildArgs:
+          service: "account-service"
   local:
     push: false
 manifests:
   rawYaml:
-    - ./infra/k8s/*
+    - ./infra/k8s/nats.yaml
+    - ./infra/k8s/auth.yaml
+    - ./infra/k8s/account.yaml
+    - ./infra/k8s/ingress-nginx.yaml
 deploy:
   kubectl: {}
