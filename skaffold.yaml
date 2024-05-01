@@ -29,6 +29,7 @@ manifests:
     - ./infra/k8s/nats.yaml
     - ./infra/k8s/auth.yaml
     - ./infra/k8s/account.yaml
+    - ./infra/k8s/pact-broker.yaml
     - ./infra/k8s/ingress-nginx.yaml
 deploy:
   kubectl: {}

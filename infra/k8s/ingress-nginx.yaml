@@ -24,3 +24,20 @@ spec:
                 name: account-srv
                 port:
                   number: 3001
+    - host: my-pact-broker.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pact-broker-srv
+                port:
+                  number: 3001
+          - path: /api/account/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: account-srv
+                port:
+                  number: 3001

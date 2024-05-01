@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pact-broker-srv
+spec:
+  ports:
+  - port: 3001
+    targetPort: 9292
+  selector:
+    app: pact-broker
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pact-broker-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pact-broker
+  template:
+    metadata:
+      labels:
+        app: pact-broker
+    spec:
+      containers:
+      - name: pact-broker
+        image: pactfoundation/pact-broker
+        env:
+        - name: PACT_BROKER_DATABASE_USERNAME
+          value: "postgres"
+        - name: PACT_BROKER_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pact-postgres-password
+              key: password
+        - name: PACT_BROKER_DATABASE_HOST
+          value: "pact-postgres"
+        - name: PACT_BROKER_DATABASE_NAME
+          value: "postgres"
+        ports:
+        - containerPort: 9292
