@@ -22,6 +22,16 @@ build:
         dockerfile: Dockerfile.dev
         buildArgs:
           service: "account-service"
+    - image: product-service
+      context: .
+      sync:
+        manual:
+          - src: apps/product-service/src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile.dev
+        buildArgs:
+          service: "product-service"
   local:
     push: false
 manifests:
@@ -30,6 +40,7 @@ manifests:
     - ./infra/k8s/auth.yaml
     - ./infra/k8s/account.yaml
     - ./infra/k8s/pact-broker.yaml
+    - ./infra/k8s/product.yaml
     - ./infra/k8s/ingress-nginx.yaml
 deploy:
   kubectl: {}

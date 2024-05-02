@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-postgres
+  template:
+    metadata:
+      labels:
+        app: product-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: product-db
+            - name: POSTGRES_USER
+              value: vuk
+            - name: POSTGRES_PASSWORD
+              value: test1234
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: product-postgress-storage
+      volumes:
+        - name: product-postgress-storage
+          persistentVolumeClaim:
+            claimName: product-postgres-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: product-postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-postgres-srv
+spec:
+  selector:
+    app: product-postgres
+  ports:
+    - name: product-postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
