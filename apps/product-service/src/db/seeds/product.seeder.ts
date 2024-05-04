@@ -9,13 +9,11 @@ export default class ProductSeeder implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<void> {
     if (process.env.NODE_ENV !== 'production') {
-      console.log('debugger 1');
       await dataSource.query(
         'DELETE FROM "category_entity_products_product_entity"',
       );
       await dataSource.query('DELETE FROM "product_entity"');
       await dataSource.query('DELETE FROM "category_entity"');
-      console.log('debugger 2');
 
       const categoryRepository = dataSource.getRepository(CategoryEntity);
 
@@ -32,6 +30,7 @@ export default class ProductSeeder implements Seeder {
             const productsForSubCategory = await productFactory.saveMany(20);
 
             return categoryRepository.create({
+              path: `${category}/${subCategory}`,
               name: subCategory,
               products: productsForSubCategory,
             });
@@ -46,6 +45,7 @@ export default class ProductSeeder implements Seeder {
           );
 
           return categoryRepository.create({
+            path: category,
             name: category,
             products: allProducsForCategory,
             subCategories: subCategories,
@@ -53,15 +53,9 @@ export default class ProductSeeder implements Seeder {
         },
       );
 
-      console.log('debugger 3');
-
       const categories = await Promise.all(categoriesPromise);
 
-      console.log('debugger 4');
-
       await categoryRepository.save(categories);
-
-      console.log('debugger 5');
     }
   }
 }

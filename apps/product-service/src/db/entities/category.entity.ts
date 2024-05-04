@@ -17,6 +17,9 @@ export class CategoryEntity {
   @Column()
   name: string;
 
+  @Column()
+  path: string;
+
   @OneToMany(() => CategoryEntity, (category) => category.parentCategory)
   subCategories: CategoryEntity[];
 

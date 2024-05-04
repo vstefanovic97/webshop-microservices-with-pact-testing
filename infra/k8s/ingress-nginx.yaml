@@ -6,6 +6,10 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - web-shop.dev
+      secretName: webshop-cert
   rules:
     - host: web-shop.dev
       http:
