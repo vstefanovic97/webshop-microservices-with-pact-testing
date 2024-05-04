@@ -5,5 +5,17 @@ export class PaginationQueryDto {
   limit: number;
 
   @IsOptional()
-  offset: number;
+  page: number;
+
+  @IsOptional()
+  minPrice?: number;
+
+  @IsOptional()
+  maxPrice?: number;
+
+  @IsOptional()
+  color?: string;
+
+  @IsOptional()
+  categoryId: number;
 }

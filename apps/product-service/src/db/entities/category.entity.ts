@@ -5,7 +5,6 @@ import {
   ManyToMany,
   OneToMany,
   ManyToOne,
-  JoinTable,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 
@@ -27,6 +26,5 @@ export class CategoryEntity {
   parentCategory: CategoryEntity;
 
   @ManyToMany(() => ProductEntity, (product) => product.categories)
-  @JoinTable()
   products: ProductEntity[];
 }

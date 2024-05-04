@@ -11,11 +11,30 @@ export class ProductService {
     private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
-  findAll({ offset, limit }: PaginationQueryDto): Promise<ProductEntity[]> {
-    return this.productRepository.find({
-      skip: offset,
-      take: limit,
-    });
+  findAll({
+    page = 1,
+    limit = 10,
+    minPrice = 0,
+    maxPrice = 10000000000,
+    color,
+    categoryId,
+  }: PaginationQueryDto): Promise<ProductEntity[]> {
+    let query = this.productRepository
+      .createQueryBuilder('product')
+      .where('product.price >= :minPrice', { minPrice })
+      .andWhere('product.price <= :maxPrice', { maxPrice });
+
+    if (color) {
+      query = query.andWhere('product.color = :color', { color });
+    }
+
+    query = query
+      .innerJoin('product.categories', 'category')
+      .andWhere('category.id = :categoryId', { categoryId });
+
+    query = query.skip((page - 1) * limit).take(limit);
+
+    return query.getMany();
   }
 
   async find(id: number): Promise<ProductEntity> {

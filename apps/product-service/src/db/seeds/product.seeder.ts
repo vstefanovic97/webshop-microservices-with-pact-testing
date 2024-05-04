@@ -10,7 +10,7 @@ export default class ProductSeeder implements Seeder {
   ): Promise<void> {
     if (process.env.NODE_ENV !== 'production') {
       await dataSource.query(
-        'DELETE FROM "category_entity_products_product_entity"',
+        'DELETE FROM "product_entity_categories_category_entity"',
       );
       await dataSource.query('DELETE FROM "product_entity"');
       await dataSource.query('DELETE FROM "category_entity"');
