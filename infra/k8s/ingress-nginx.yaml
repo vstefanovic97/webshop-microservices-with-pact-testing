@@ -35,6 +35,13 @@ spec:
                 name: product-srv
                 port:
                   number: 3001
+          - path: /(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: next-srv
+                port:
+                  number: 3001
     - host: my-pact-broker.dev
       http:
         paths:
