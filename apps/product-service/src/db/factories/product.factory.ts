@@ -28,6 +28,21 @@ export default setSeederFactory(ProductEntity, async (faker) => {
       width: 480,
       category: 'fashion',
     }),
+    faker.image.urlLoremFlickr({
+      height: 640,
+      width: 480,
+      category: 'fashion',
+    }),
+    faker.image.urlLoremFlickr({
+      height: 640,
+      width: 480,
+      category: 'fashion',
+    }),
+    faker.image.urlLoremFlickr({
+      height: 640,
+      width: 480,
+      category: 'fashion',
+    }),
   ];
 
   product.imageUrls = images;
