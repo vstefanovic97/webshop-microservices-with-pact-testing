@@ -1,6 +1,6 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { ProductEntity } from '../entities/product.entity';
-
+import { PRODUCT_IMAGES } from './image-fixtures';
 export default setSeederFactory(ProductEntity, async (faker) => {
   const product = new ProductEntity();
 
@@ -12,38 +12,11 @@ export default setSeederFactory(ProductEntity, async (faker) => {
   // 5% of products will be out of stock
   product.inventory = Math.random() < 0.95;
 
-  const images = [
-    faker.image.urlLoremFlickr({
-      height: 640,
-      width: 480,
-      category: 'fashion',
-    }),
-    faker.image.urlLoremFlickr({
-      height: 640,
-      width: 480,
-      category: 'fashion',
-    }),
-    faker.image.urlLoremFlickr({
-      height: 640,
-      width: 480,
-      category: 'fashion',
-    }),
-    faker.image.urlLoremFlickr({
-      height: 640,
-      width: 480,
-      category: 'fashion',
-    }),
-    faker.image.urlLoremFlickr({
-      height: 640,
-      width: 480,
-      category: 'fashion',
-    }),
-    faker.image.urlLoremFlickr({
-      height: 640,
-      width: 480,
-      category: 'fashion',
-    }),
-  ];
+  const images = [];
+
+  for (let i = 0; i < 6; i++) {
+    images.push(PRODUCT_IMAGES[faker.number.int({ min: 1, max: 46 })]);
+  }
 
   product.imageUrls = images;
 
