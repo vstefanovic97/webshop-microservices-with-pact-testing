@@ -11,6 +11,7 @@ async function bootstrap() {
       waitOnFirstConnect: true,
     },
   });
+  app.enableCors();
   await app.startAllMicroservices();
   await app.listen(3001);
 }

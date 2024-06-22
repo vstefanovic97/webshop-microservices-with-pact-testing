@@ -1,6 +1,17 @@
-import { Controller, Post, BadRequestException, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  BadRequestException,
+  Body,
+  UseGuards,
+  Request,
+  UsePipes,
+} from '@nestjs/common';
 import { RegisterDTO } from './dto/register';
 import { AccountService } from './account.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { RemovePasswordPipe } from './remove-password.pipe';
 
 @Controller('/api/account')
 export class AccountController {
@@ -13,5 +24,12 @@ export class AccountController {
       throw new BadRequestException('User already exists');
     }
     return this.accountService.register(newUser);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
+  @UsePipes(RemovePasswordPipe)
+  async getProfile(@Request() req: any) {
+    return this.accountService.findByEmail(req.user.email);
   }
 }

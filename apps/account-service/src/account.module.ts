@@ -6,6 +6,9 @@ import { UserEntity } from './db/entities/user.entity';
 import { dataSourceOptions } from './db/data-source';
 import { SeedService } from './db/seed.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -18,10 +21,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         },
       },
     ]),
+    PassportModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '3600s' },
+    }),
     TypeOrmModule.forRoot(dataSourceOptions),
     TypeOrmModule.forFeature([UserEntity]),
   ],
   controllers: [AccountController],
-  providers: [AccountService, SeedService],
+  providers: [AccountService, SeedService, JwtStrategy],
 })
 export class AccountModule {}
