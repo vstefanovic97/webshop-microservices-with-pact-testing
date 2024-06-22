@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { UserEntity } from './db/entities/user.entity';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AppService {
@@ -21,8 +22,7 @@ export class AppService {
   } | null> {
     const user = await this.userRepository.findOne({ where: { email } });
 
-    // TODO HASH password in DB instead of keeping them as plain text
-    if (user && user.password === password) {
+    if (user && (await compare(password, user.password))) {
       const { email, id } = user;
       return {
         email,
@@ -33,10 +33,14 @@ export class AppService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+  async login(user: { email: string; id: string }) {
+    const payload = { email: user.email, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async addNewUser(user: any) {
+    this.userRepository.save([user]);
   }
 }

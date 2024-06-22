@@ -1,11 +1,17 @@
-import { Controller } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Controller, Post, BadRequestException, Body } from '@nestjs/common';
+import { RegisterDTO } from './dto/register';
+import { AccountService } from './account.service';
 
-@Controller()
+@Controller('/api/account')
 export class AccountController {
-  @EventPattern('user_created')
-  async handleUserCreated(data: Record<string, unknown>) {
-    console.log('user was created', data);
-    // business logic
+  constructor(private readonly accountService: AccountService) {}
+
+  @Post('register')
+  async register(@Body() newUser: RegisterDTO) {
+    const existingUser = await this.accountService.findByEmail(newUser.email);
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
+    }
+    return this.accountService.register(newUser);
   }
 }

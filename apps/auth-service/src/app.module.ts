@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
@@ -19,15 +18,6 @@ import { SeedService } from './db/seed.service';
     }),
     TypeOrmModule.forRoot(dataSourceOptions),
     TypeOrmModule.forFeature([UserEntity]),
-    ClientsModule.register([
-      {
-        name: 'NATS_SERVICE',
-        transport: Transport.NATS,
-        options: {
-          servers: ['nats://nats-srv:4222'],
-        },
-      },
-    ]),
   ],
   controllers: [AppController],
   providers: [AppService, LocalStrategy, SeedService],
