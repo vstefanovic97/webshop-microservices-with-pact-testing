@@ -3,9 +3,11 @@ kind: Service
 metadata:
   name: pact-broker-srv
 spec:
+  type: NodePort
   ports:
   - port: 3001
     targetPort: 9292
+    nodePort: 31000
   selector:
     app: pact-broker
 
