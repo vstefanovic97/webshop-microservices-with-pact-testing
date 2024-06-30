@@ -11,14 +11,17 @@ const isTestEnvironment = process.env.NODE_ENV === 'test';
 export const dataSourceOptions: DataSourceOptions & SeederOptions =
   isTestEnvironment
     ? {
-        type: 'sqlite',
-        database: ':memory:', // Use an in-memory database for tests
-        dropSchema: true, // Drop the schema after connection (cleans up after each test run)
-        logging: false, // Reduce log output during tests,
-        synchronize: true,
+        type: 'postgres',
+        host: 'localhost',
+        port: 5432,
+        dropSchema: true,
+        username: 'vuk',
+        password: 'test1234',
+        database: 'test-db',
         entities: [ProductEntity, CategoryEntity],
-        seeds: [ProductSeeder],
+        connectTimeoutMS: 10000,
         factories: [ProductFactory],
+        synchronize: true, // TODO turn of for production env
       }
     : {
         type: 'postgres',

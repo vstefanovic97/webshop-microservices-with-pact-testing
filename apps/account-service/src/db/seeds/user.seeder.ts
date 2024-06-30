@@ -8,7 +8,10 @@ export default class UserSeeder implements Seeder {
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<void> {
-    if (process.env.NODE_ENV !== 'production') {
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      process.env.NODE_ENV !== 'test'
+    ) {
       await dataSource.query('TRUNCATE "user_entity" RESTART IDENTITY;');
 
       const userFactory = factoryManager.get(UserEntity);

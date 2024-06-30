@@ -1,6 +1,7 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { ProductEntity } from '../entities/product.entity';
 import { PRODUCT_IMAGES } from './image-fixtures';
+
 export default setSeederFactory(ProductEntity, async (faker) => {
   const product = new ProductEntity();
 
